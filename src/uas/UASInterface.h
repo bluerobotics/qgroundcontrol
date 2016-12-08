@@ -111,6 +111,7 @@ public:
         StartCalibrationAirspeed,
         StartCalibrationAccel,
         StartCalibrationLevel,
+        StartCalibrationBaro,
         StartCalibrationEsc,
         StartCalibrationCopyTrims,
         StartCalibrationUavcanEsc,

@@ -158,6 +158,7 @@ SetupPage {
                 accelButton:                accelButton
                 compassMotButton:           motorInterferenceButton
                 levelButton:                levelHorizonButton
+                barometerButton:            zeroBarometerButton
                 nextButton:                 nextButton
                 cancelButton:               cancelButton
                 setOrientationsButton:      setOrientationsButton
@@ -474,6 +475,26 @@ SetupPage {
                 } // QGCViewDialog
             } // Component - levelHorizonDialogComponent
 
+            Component {
+                id: zeroBarometerDialogComponent
+
+                QGCViewDialog {
+                    id: zeroBarometerDialog
+
+                    function accept() {
+                        controller.zeroBarometer()
+                        zeroBarometerDialog.hideDialog()
+                    }
+
+                    QGCLabel {
+                        anchors.left:   parent.left
+                        anchors.right:  parent.right
+                        wrapMode:       Text.WordWrap
+                        text:           qsTr("Make sure the pressure sensor is in air and press Ok.")
+                    }
+                } // QGCViewDialog
+            } // Component - zeroBarometerDialogComponent
+
             Column {
                 spacing:            ScreenTools.defaultFontPixelHeight / 2
                 Layout.alignment:   Qt.AlignLeft | Qt.AlignTop
@@ -517,6 +538,18 @@ SetupPage {
                         } else {
                             showDialog(levelHorizonDialogComponent, _levelHorizonText, qgcView.showDialogDefaultWidth, StandardButton.Cancel | StandardButton.Ok)
                         }
+                    }
+                }
+
+                QGCButton {
+                    id:     zeroBarometerButton
+                    width:  parent.buttonWidth
+                    text:   _zeroBarometerText
+
+                    readonly property string _zeroBarometerText: qsTr("Zero Barometer")
+
+                    onClicked: {
+                        showDialog(zeroBarometerDialogComponent, _zeroBarometerText, qgcView.showDialogDefaultWidth, StandardButton.Cancel | StandardButton.Ok)
                     }
                 }
 
