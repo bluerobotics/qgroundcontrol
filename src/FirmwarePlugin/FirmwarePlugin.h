@@ -150,6 +150,9 @@ public:
     /// to be assigned via parameters in firmware. Default is false.
     virtual bool supportsJSButton(void);
 
+    /// Returns true if the firmware supports zeroing the barometer height. Default is false.
+    virtual bool supportsBarometerZero(void);
+
     /// Called before any mavlink message is processed by Vehicle such that the firmwre plugin
     /// can adjust any message characteristics. This is handy to adjust or differences in mavlink
     /// spec implementations such that the base code can remain mavlink generic.

@@ -1641,6 +1641,11 @@ bool Vehicle::supportsJSButton(void) const
     return _firmwarePlugin->supportsJSButton();
 }
 
+bool Vehicle::supportsBarometerZero(void) const
+{
+    return _firmwarePlugin->supportsBarometerZero();
+}
+
 void Vehicle::_setCoordinateValid(bool coordinateValid)
 {
     if (coordinateValid != _coordinateValid) {

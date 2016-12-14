@@ -72,3 +72,8 @@ bool ArduSubFirmwarePlugin::supportsJSButton(void)
 {
     return true;
 }
+
+bool ArduSubFirmwarePlugin::supportsBarometerZero(void)
+{
+    return true;
+}

@@ -14,6 +14,7 @@ import QtQuick.Controls.Styles  1.2
 import QtQuick.Dialogs          1.2
 import QtQuick.Layouts          1.2
 
+import QGroundControl               1.0
 import QGroundControl.FactSystem    1.0
 import QGroundControl.FactControls  1.0
 import QGroundControl.Palette       1.0
@@ -545,8 +546,11 @@ SetupPage {
                     id:     zeroBarometerButton
                     width:  parent.buttonWidth
                     text:   _zeroBarometerText
+                    visible: _activeVehicle ? _activeVehicle.supportsBarometerZero : false
 
                     readonly property string _zeroBarometerText: qsTr("Zero Barometer")
+                    property var  _activeVehicle: QGroundControl.multiVehicleManager.activeVehicle
+
 
                     onClicked: {
                         showDialog(zeroBarometerDialogComponent, _zeroBarometerText, qgcView.showDialogDefaultWidth, StandardButton.Cancel | StandardButton.Ok)

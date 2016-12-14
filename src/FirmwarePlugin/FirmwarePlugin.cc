@@ -122,6 +122,11 @@ bool FirmwarePlugin::supportsRadio(void)
     return true;
 }
 
+bool FirmwarePlugin::supportsBarometerZero(void)
+{
+    return false;
+}
+
 bool FirmwarePlugin::supportsJSButton(void)
 {
     return false;
