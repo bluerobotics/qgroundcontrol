@@ -84,7 +84,7 @@ const QVariantList& APMAutoPilotPlugin::vehicleComponents(void)
             _powerComponent->setupTriggerSignals();
             _components.append(QVariant::fromValue((VehicleComponent*)_powerComponent));
 
-            if (_vehicle->multiRotor() || _vehicle->vtol()) {
+            if (_vehicle->multiRotor() || _vehicle->vtol() || _vehicle->sub()) {
                 _motorComponent = new MotorComponent(_vehicle, this);
                 _motorComponent->setupTriggerSignals();
                 _components.append(QVariant::fromValue((VehicleComponent*)_motorComponent));

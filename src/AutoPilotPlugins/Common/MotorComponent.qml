@@ -56,7 +56,7 @@ SetupPage {
 
                             onTriggered: {
                                 if (_lastValue != slider.value) {
-                                    controller.vehicle.motorTest(index + 1, slider.value, 1)
+                                    controller.vehicle.motorTest(index, slider.value)
                                 }
                             }
                         }
