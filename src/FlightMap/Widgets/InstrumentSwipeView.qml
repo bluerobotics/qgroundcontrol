@@ -2,9 +2,11 @@ import QtQuick                  2.3
 import QtQuick.Controls         1.2
 import QtQuick.Layouts          1.2
 
-import QGroundControl.Palette       1.0
-import QGroundControl.ScreenTools   1.0
-import QGroundControl.FlightMap     1.0
+import QGroundControl                       1.0
+import QGroundControl.Palette               1.0
+import QGroundControl.MultiVehicleManager   1.0
+import QGroundControl.ScreenTools           1.0
+import QGroundControl.FlightMap             1.0
 
 Item {
     id:     _root
@@ -16,10 +18,11 @@ Item {
     property color  backgroundColor
     property var    maxHeight       ///< Maximum height that should be taken, smaller than this is ok
 
+    property var    _activeVehicle: QGroundControl.multiVehicleManager.activeVehicle
     property real   _margins:       ScreenTools.defaultFontPixelWidth / 2
     property real   _pageWidth:     _root.width
     property int    _currentPage:   0
-    property int    _maxPage:       3
+    property int    _maxPage:       _activeVehicle.sub ? 1 : 3
 
     onWidthChanged: showPage(_currentPage)
 
@@ -70,6 +73,7 @@ Item {
                 qgcView:    _root.qgcView
                 textColor:  _root.textColor
                 maxHeight:  _root.maxHeight
+                visible:    !_activeVehicle.sub
             }
             VehicleHealthWidget {
                 width:      _pageWidth
@@ -82,6 +86,7 @@ Item {
                 textColor:          _root.textColor
                 backgroundColor:    _root.backgroundColor
                 maxHeight:          _root.maxHeight
+                visible:            !_activeVehicle.sub
             }
         }
 
