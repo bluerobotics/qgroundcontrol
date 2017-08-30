@@ -113,7 +113,7 @@ Rectangle {
                     onEntered:      healthWarning.opacity = 1
                     onExited:       healthWarning.opacity = 0.8
                     onClicked:      {
-                        _valuesWidget.showPage(2)
+                        _valuesWidget.showPage(1)
                         healthWarning._warningsViewed = true
                     }
                 }

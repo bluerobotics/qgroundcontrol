@@ -68,18 +68,18 @@ Item {
                 textColor:  _root.textColor
                 maxHeight:  _root.maxHeight
             }
+            VehicleHealthWidget {
+                width:      _pageWidth
+                qgcView:    _root.qgcView
+                textColor:  _root.textColor
+                maxHeight:  _root.maxHeight
+            }
             CameraWidget {
                 width:      _pageWidth
                 qgcView:    _root.qgcView
                 textColor:  _root.textColor
                 maxHeight:  _root.maxHeight
                 visible:    !_activeVehicle.sub
-            }
-            VehicleHealthWidget {
-                width:      _pageWidth
-                qgcView:    _root.qgcView
-                textColor:  _root.textColor
-                maxHeight:  _root.maxHeight
             }
             VibrationWidget {
                 width:              _pageWidth
