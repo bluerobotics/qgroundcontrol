@@ -142,7 +142,7 @@ void MultiVehicleManager::_vehicleHeartbeatInfo(LinkInterface* link, int vehicle
 
     emit vehicleAdded(vehicle);
 
-    if (_vehicles.count() > 1) {
+    if (_vehicles.count() > 1 && _activeVehicle) {
         qgcApp()->showMessage(tr("Connected to Vehicle %1").arg(vehicleId));
     } else {
         setActiveVehicle(vehicle);
@@ -238,7 +238,14 @@ void MultiVehicleManager::_deleteVehiclePhase2(void)
 
 void MultiVehicleManager::setActiveVehicle(Vehicle* vehicle)
 {
-    qCDebug(MultiVehicleManagerLog) << "setActiveVehicle" << vehicle;
+    qDebug(MultiVehicleManagerLog) << "attempting to set active:" << vehicle->id();
+
+    if (vehicle->id() != 1 && vehicle->id() < 128) {
+        qDebug(MultiVehicleManagerLog) << "rejecting active:" << vehicle->id();
+        return; // Connect only to Vehicle Sysid 1 (and >127 for experiments/ mock link/ unit tests)
+    }
+
+    qDebug(MultiVehicleManagerLog) << "setActiveVehicle" << vehicle;
 
     if (vehicle != _activeVehicle) {
         if (_activeVehicle) {
