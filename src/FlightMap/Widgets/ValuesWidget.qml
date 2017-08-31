@@ -93,7 +93,7 @@ QGCFlickable {
                 font.family:            largeValue ? ScreenTools.demiboldFontFamily : ScreenTools.normalFontFamily
                 fontSizeMode:           Text.HorizontalFit
                 color:                  textColor
-                text:                   fact.valueString
+                text:                   fact.enumOrValueString
             }
         }
     }
