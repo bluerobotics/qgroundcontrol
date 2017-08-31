@@ -54,7 +54,11 @@ QStringList APMCameraComponent::setupCompleteChangedTriggerList(void) const
 
 QUrl APMCameraComponent::setupSource(void) const
 {
-    return QUrl::fromUserInput(QStringLiteral("qrc:/qml/APMCameraComponent.qml"));
+    if (_vehicle->sub()) {
+        return QUrl::fromUserInput(QStringLiteral("qrc:/qml/APMCameraSimpleComponent.qml"));
+    } else {
+        return QUrl::fromUserInput(QStringLiteral("qrc:/qml/APMCameraComponent.qml"));
+    }
 }
 
 QUrl APMCameraComponent::summaryQmlSource(void) const
