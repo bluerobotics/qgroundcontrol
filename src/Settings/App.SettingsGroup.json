@@ -162,5 +162,11 @@
     "shortDescription": "Default firmware type for flashing",
     "type":             "uint32",
     "defaultValue":     12
+},
+{
+    "name":             "ShowAdvancedSettings",
+    "shortDescription": "Option to expose advanced settings and UI elements",
+    "type":             "bool",
+    "defaultValue":     false
 }
 ]

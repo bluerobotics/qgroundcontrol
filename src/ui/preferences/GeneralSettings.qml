@@ -240,6 +240,14 @@ QGCView {
                             }
                         }
                         //-----------------------------------------------------------------
+                        //-- Advanced settings preferences
+                        FactCheckBox {
+                            text:       qsTr("Show advanced settings")
+                            fact:       _showAdvanced
+                            visible:    _showAdvanced.visible
+                            property Fact _showAdvanced: QGroundControl.settingsManager.appSettings.showAdvancedSettings
+                        }
+                        //-----------------------------------------------------------------
                         //-- Audio preferences
                         FactCheckBox {
                             text:       qsTr("Mute all audio output")
