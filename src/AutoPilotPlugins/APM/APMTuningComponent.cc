@@ -12,6 +12,9 @@
 #include "APMAutoPilotPlugin.h"
 #include "APMAirframeComponent.h"
 #include "ParameterManager.h"
+#include "QGCApplication.h"
+#include "SettingsManager.h"
+#include "AppSettings.h"
 
 APMTuningComponent::APMTuningComponent(Vehicle* vehicle, AutoPilotPlugin* autopilot, QObject* parent)
     : VehicleComponent(vehicle, autopilot, parent)
@@ -66,7 +69,9 @@ QUrl APMTuningComponent::setupSource(void) const
             }
             break;
         case MAV_TYPE_SUBMARINE:
-            qmlFile = QStringLiteral("qrc:/qml/APMTuningComponentSub.qml");
+            if (qgcApp()->toolbox()->settingsManager()->appSettings()->showAdvancedSettings()->cookedValue().toBool()) {
+                qmlFile = QStringLiteral("qrc:/qml/APMTuningComponentSub.qml");
+            }
             break;
         default:
             // No tuning panel
