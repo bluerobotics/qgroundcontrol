@@ -77,8 +77,6 @@ VideoSettings::VideoSettings(QObject* parent)
     // Set default value for videoSource
     if (noVideo) {
         _nameToMetaDataMap[videoSourceName]->setRawDefaultValue(videoSourceNoVideo);
-    } else {
-        _nameToMetaDataMap[videoSourceName]->setRawDefaultValue(videoDisabled);
     }
 }
 
