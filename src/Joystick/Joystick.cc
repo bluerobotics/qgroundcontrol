@@ -74,6 +74,8 @@ Joystick::Joystick(const QString& name, int axisCount, int buttonCount, int hatC
         _rgButtonValues[i] = false;
     }
 
+    _updateTXModeSettingsKey(_multiVehicleManager->activeVehicle());
+
     _loadSettings();
 
     connect(_multiVehicleManager, &MultiVehicleManager::activeVehicleChanged, this, &Joystick::_activeVehicleChanged);
@@ -118,7 +120,7 @@ void Joystick::_setDefaultCalibration(void) {
     _saveSettings();
 }
 
-void Joystick::_activeVehicleChanged(Vehicle *activeVehicle)
+void Joystick::_updateTXModeSettingsKey(Vehicle* activeVehicle)
 {
     if(activeVehicle) {
         if(activeVehicle->fixedWing()) {
@@ -136,7 +138,16 @@ void Joystick::_activeVehicleChanged(Vehicle *activeVehicle)
             qWarning() << "No valid joystick TXmode settings key for selected vehicle";
             return;
         }
+    } else {
+        _txModeSettingsKey = NULL;
+    }
+}
 
+void Joystick::_activeVehicleChanged(Vehicle* activeVehicle)
+{
+    _updateTXModeSettingsKey(activeVehicle);
+
+    if(activeVehicle) {
         QSettings settings;
         settings.beginGroup(_settingsGroup);
         int mode = settings.value(_txModeSettingsKey, activeVehicle->firmwarePlugin()->defaultJoystickTXMode()).toInt();
@@ -151,8 +162,10 @@ void Joystick::_loadSettings(void)
 
     settings.beginGroup(_settingsGroup);
 
-    if(_txModeSettingsKey)
-        _transmitterMode = settings.value(_txModeSettingsKey, 2).toInt();
+    Vehicle* activeVehicle = _multiVehicleManager->activeVehicle();
+
+    if(_txModeSettingsKey && activeVehicle)
+        _transmitterMode = settings.value(_txModeSettingsKey, activeVehicle->firmwarePlugin()->defaultJoystickTXMode()).toInt();
 
     settings.beginGroup(_name);
 
