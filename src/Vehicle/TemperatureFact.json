@@ -1,21 +1,21 @@
 [
 {
     "name":             "temperature1",
-    "shortDescription": "Temperature (1)",
+    "shortDescription": "Internal Temp.",
     "type":             "double",
     "decimalPlaces":    2,
     "units":            "C"
 },
 {
     "name":             "temperature2",
-    "shortDescription": "Temperature (2)",
+    "shortDescription": "Water Temp.",
     "type":             "double",
     "decimalPlaces":    2,
     "units":            "C"
 },
 {
     "name":             "temperature3",
-    "shortDescription": "Temperature (3)",
+    "shortDescription": "Hi-res Water Temp.",
     "type":             "double",
     "decimalPlaces":    2,
     "units":            "C"
