@@ -219,8 +219,8 @@ QString QGCCorePlugin::showAdvancedUIMessage(void) const
 
 void QGCCorePlugin::valuesWidgetDefaultSettings(QStringList& largeValues, QStringList& smallValues)
 {
-    Q_UNUSED(smallValues);
-    largeValues << "Vehicle.altitudeRelative" << "Vehicle.groundSpeed" << "Vehicle.flightTime";
+    largeValues << "Vehicle.altitudeRelative" << "Vehicle.battery.voltage" << "Vehicle.battery.current";
+    smallValues << "Vehicle.APMSubInfo.altimeter distance" << "Vehicle.APMSubInfo.camera tilt" << "Vehicle.APMSubInfo.tether turns" << "Vehicle.APMSubInfo.pilot gain" << "Vehicle.APMSubInfo.input hold" << "Vehicle.temperature.temperature1" << "Vehicle.temperature.temperature2";
 }
 
 QQmlApplicationEngine* QGCCorePlugin::createRootWindow(QObject *parent)
