@@ -116,7 +116,6 @@ private:
     void                        _detachRecordingBranch  (GstPadProbeInfo* info);
     void                        _shutdownRecordingBranch();
     void                        _shutdownPipeline       ();
-    void                        _cleanupOldVideos       ();
     void                        _setVideoSink           (GstElement* sink);
 
     GstElement*     _pipeline;

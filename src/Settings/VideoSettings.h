@@ -26,7 +26,6 @@ public:
     Q_PROPERTY(Fact* gridLines          READ gridLines          CONSTANT)
     Q_PROPERTY(Fact* showRecControl     READ showRecControl     CONSTANT)
     Q_PROPERTY(Fact* recordingFormat    READ recordingFormat    CONSTANT)
-    Q_PROPERTY(Fact* maxVideoSize       READ maxVideoSize       CONSTANT)
 
     Fact* videoSource       (void);
     Fact* udpPort           (void);
@@ -35,7 +34,6 @@ public:
     Fact* gridLines         (void);
     Fact* showRecControl    (void);
     Fact* recordingFormat   (void);
-    Fact* maxVideoSize      (void);
 
     static const char* videoSettingsGroupName;
 
@@ -46,7 +44,6 @@ public:
     static const char* videoGridLinesName;
     static const char* showRecControlName;
     static const char* recordingFormatName;
-    static const char* maxVideoSizeName;
 
     static const char* videoSourceNoVideo;
     static const char* videoDisabled;
@@ -61,7 +58,6 @@ private:
     SettingsFact* _gridLinesFact;
     SettingsFact* _showRecControlFact;
     SettingsFact* _recordingFormatFact;
-    SettingsFact* _maxVideoSizeFact;
 };
 
 #endif

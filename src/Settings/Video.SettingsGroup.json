@@ -60,14 +60,5 @@
     "enumStrings":      "mkv,mov,mp4",
     "enumValues":       "0,1,2",
     "defaultValue":     0
-},
-{
-    "name":             "MaxVideoSize",
-    "shortDescription": "Max Video Storage Usage",
-    "longDescription":  "Maximum amount of disk space used by video recording.",
-    "type":             "uint32",
-    "min":              100,
-    "units":            "MB",
-    "defaultValue":     2048
 }
 ]
