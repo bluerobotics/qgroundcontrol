@@ -24,7 +24,7 @@ Item {
     property int    _currentPage:   0
     property int    _maxPage:       _activeVehicle ?
                                         _activeVehicle.sub ? 1 : 3
-                                        : 3
+                                        : 1
 
     onWidthChanged: showPage(_currentPage)
 
