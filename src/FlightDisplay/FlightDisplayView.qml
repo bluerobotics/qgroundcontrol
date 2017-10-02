@@ -379,6 +379,8 @@ QGCView {
             visible:            _videoReceiver && _videoReceiver.videoRunning && QGroundControl.settingsManager.videoSettings.showRecControl.rawValue && _flightVideo.visible
             opacity:            0.75
 
+            onVisibleChanged:   recordBtn.visible = true
+
             Rectangle {
                 id:                 recordBtn
                 anchors.top:        parent.top
