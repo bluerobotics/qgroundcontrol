@@ -379,34 +379,33 @@ QGCView {
             visible:            _videoReceiver && _videoReceiver.videoRunning && QGroundControl.settingsManager.videoSettings.showRecControl.rawValue && _flightVideo.visible
             opacity:            0.75
 
-            readonly property string recordBtnBackground: "BackgroundName"
-
             Rectangle {
-                id:                 recordBtnBackground
+                id:                 recordBtn
                 anchors.top:        parent.top
                 anchors.bottom:     parent.bottom
                 width:              height
                 radius:             _recordingVideo ? 0 : height
                 color:              "red"
 
+                QGCColoredImage {
+                    anchors.top:                parent.top
+                    anchors.bottom:             parent.bottom
+                    anchors.horizontalCenter:   parent.horizontalCenter
+                    width:                      height * 0.625
+                    sourceSize.width:           width
+                    source:                     "/qmlimages/CameraIcon.svg"
+                    fillMode:                   Image.PreserveAspectFit
+                    color:                      "white"
+                }
+
                 SequentialAnimation on visible {
+                    id:             recordBtnAnimation
                     running:        _recordingVideo
                     loops:          Animation.Infinite
+
                     PropertyAnimation { to: false; duration: 1000 }
                     PropertyAnimation { to: true;  duration: 1000 }
                 }
-            }
-
-            QGCColoredImage {
-                anchors.top:                parent.top
-                anchors.bottom:             parent.bottom
-                anchors.horizontalCenter:   parent.horizontalCenter
-                width:                      height * 0.625
-                sourceSize.width:           width
-                source:                     "/qmlimages/CameraIcon.svg"
-                visible:                    recordBtnBackground.visible
-                fillMode:                   Image.PreserveAspectFit
-                color:                      "white"
             }
 
             MouseArea {
@@ -415,8 +414,7 @@ QGCView {
                     if (_videoReceiver) {
                         if (_recordingVideo) {
                             _videoReceiver.stopRecording()
-                            // reset blinking animation
-                            recordBtnBackground.visible = true
+                            recordBtnAnimation.complete()
                         } else {
                             _videoReceiver.startRecording()
                         }
