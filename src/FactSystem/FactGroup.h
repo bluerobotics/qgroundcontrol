@@ -46,8 +46,8 @@ protected:
 
     int _updateRateMSecs;   ///< Update rate for Fact::valueChanged signals, 0: immediate update
 
-private slots:
-    void _updateAllValues(void);
+protected slots:
+    virtual void _updateAllValues(void);
 
 private:
     void _loadMetaData(const QString& filename);

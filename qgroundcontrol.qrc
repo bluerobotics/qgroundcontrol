@@ -219,6 +219,7 @@
         <file alias="Vehicle/TemperatureFact.json">src/Vehicle/TemperatureFact.json</file>
         <file alias="Vehicle/SubmarineFact.json">src/Vehicle/SubmarineFact.json</file>
         <file alias="Vehicle/ArduSubVehicleFact.json">src/Vehicle/ArduSubVehicleFact.json</file>
+        <file alias="Vehicle/ClockFact.json">src/Vehicle/ClockFact.json</file>
     </qresource>
     <qresource prefix="/MockLink">
         <file alias="APMArduCopterMockLink.params">src/comm/APMArduCopterMockLink.params</file>
