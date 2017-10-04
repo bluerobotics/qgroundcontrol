@@ -320,6 +320,7 @@ VideoReceiver::start()
             bus = NULL;
         }
 
+        GST_DEBUG_BIN_TO_DOT_FILE(GST_BIN(_pipeline), GST_DEBUG_GRAPH_SHOW_ALL, "pipeline-paused");
         running = gst_element_set_state(_pipeline, GST_STATE_PLAYING) != GST_STATE_CHANGE_FAILURE;
 
     } while(0);
@@ -369,6 +370,7 @@ VideoReceiver::start()
 
         _running = false;
     } else {
+        GST_DEBUG_BIN_TO_DOT_FILE(GST_BIN(_pipeline), GST_DEBUG_GRAPH_SHOW_ALL, "pipeline-playing");
         _running = true;
         qCDebug(VideoReceiverLog) << "Running";
     }
@@ -579,6 +581,8 @@ VideoReceiver::startRecording(void)
     GstPad* sinkpad = gst_element_get_static_pad(_sink->queue, "sink");
     gst_pad_link(_sink->teepad, sinkpad);
     gst_object_unref(sinkpad);
+
+    GST_DEBUG_BIN_TO_DOT_FILE(GST_BIN(_pipeline), GST_DEBUG_GRAPH_SHOW_ALL, "pipeline-recording");
 
     _recording = true;
     emit recordingChanged();
