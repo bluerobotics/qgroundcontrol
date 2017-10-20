@@ -86,6 +86,7 @@ wget -c --quiet "https://github.com/probonopd/AppImageKit/releases/download/5/Ap
 chmod a+x ./AppImageAssistant
 
 ./AppImageAssistant ./$APP.AppDir/ ${TMPDIR}/$APP".AppImage"
-
+# A hack to make .AppImage executable by default, chmod do not work
+perl -e 'chmod 0755, ${TMPDIR}/$APP".AppImage"'
 cp ${TMPDIR}/$APP".AppImage" ${OUTPUT_DIR}/$APP".AppImage"
 
