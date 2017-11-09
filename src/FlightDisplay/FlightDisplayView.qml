@@ -417,6 +417,7 @@ QGCView {
                         if (_recordingVideo) {
                             _videoReceiver.stopRecording()
                             recordBtnAnimation.complete()
+                            recordBtn.visible= true
                         } else {
                             _videoReceiver.startRecording()
                         }
