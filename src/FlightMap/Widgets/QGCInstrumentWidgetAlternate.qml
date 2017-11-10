@@ -27,6 +27,7 @@ Rectangle {
     border.width:   1
     border.color:   _isSatellite ? qgcPal.mapWidgetBorderLight : qgcPal.mapWidgetBorderDark
 
+    property var    _qgcView:           qgcView
     property real   _innerRadius:       (width - (_topBottomMargin * 3)) / 4
     property real   _outerRadius:       _innerRadius + _topBottomMargin
     property real   _defaultSize:       ScreenTools.defaultFontPixelHeight * (9)
@@ -70,6 +71,13 @@ Rectangle {
         width:                      root.height * 0.15
         sourceSize.width:           width
         fillMode:                   Image.PreserveAspectFit
+        MouseArea {
+            anchors.fill:   parent
+            hoverEnabled:   true
+            onEntered:      gearThingy.opacity = 0.85
+            onExited:       gearThingy.opacity = 0.5
+            onClicked:      _valuesWidget.showPicker()
+        }
     }
 
     MouseArea {
@@ -94,7 +102,7 @@ Rectangle {
             anchors.margins:    1
             anchors.left:       parent.left
             anchors.right:      parent.right
-            qgcView:            root.qgcView
+            qgcView:            root._qgcView
             textColor:          qgcPal.text
             backgroundColor:    qgcPal.window
             maxHeight:          _availableValueHeight
