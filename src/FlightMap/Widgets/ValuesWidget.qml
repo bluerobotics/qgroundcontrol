@@ -82,8 +82,8 @@ QGCFlickable {
             QGCLabel {
                 width:                  parent.width
                 horizontalAlignment:    Text.AlignHCenter
+                wrapMode:               Text.WordWrap
                 color:                  textColor
-                fontSizeMode:           Text.HorizontalFit
                 text:                   fact.shortDescription + (fact.units ? " (" + fact.units + ")" : "")
             }
             QGCLabel {
@@ -124,9 +124,9 @@ QGCFlickable {
 
             QGCLabel {
                 width:                  parent.width
+                wrapMode:               Text.WordWrap
                 horizontalAlignment:    Text.AlignHCenter
                 font.pointSize:         ScreenTools.isTinyScreen ? ScreenTools.smallFontPointSize * 0.75 : ScreenTools.smallFontPointSize
-                fontSizeMode:           Text.HorizontalFit
                 color:                  textColor
                 text:                   fact.shortDescription
             }
