@@ -39,8 +39,11 @@ Item {
     QGCPalette    { id: qgcPal }
 
     function getPreferredInstrumentWidth() {
+        ScreenTools.printStats()
         if(ScreenTools.isMobile) {
             return ScreenTools.isTinyScreen ? mainWindow.width * 0.2 : mainWindow.width * 0.15
+        } else if(ScreenTools.isHugeScreen) {
+            return mainWindow.width * 0.11
         }
         var w = mainWindow.width * 0.15
         return Math.min(w, 200)

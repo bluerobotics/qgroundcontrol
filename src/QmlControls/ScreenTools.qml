@@ -59,6 +59,7 @@ Item {
     property bool isDebug:          ScreenToolsController.isDebug
     property bool isTinyScreen:     (Screen.width / Screen.pixelDensity) < 120 // 120mm
     property bool isShortScreen:    ScreenToolsController.isMobile && ((Screen.height / Screen.width) < 0.6) // Nexus 7 for example
+    property bool isHugeScreen:     Screen.width >= 1920*2
 
     readonly property real minTouchMillimeters: 10      ///< Minimum touch size in millimeters
     property real minTouchPixels:               0       ///< Minimum touch size in pixels
@@ -87,6 +88,10 @@ Item {
             if(ScreenToolsController.isDebug)
                 _setBasePointSize(QGroundControl.settingsManager.appSettings.appFontPointSize.value)
         }
+    }
+
+    function printStats() {
+        console.log('ScreenTools: Screen.width: ' + Screen.width + ' Screen.height: ' + Screen.height + ' Screen.pixelDensity: ' + Screen.pixelDensity)
     }
 
     /// Returns the current x position of the mouse in global screen coordinates.
