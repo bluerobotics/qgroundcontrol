@@ -11,11 +11,13 @@
 import QtQuick              2.3
 import QtQuick.Controls     1.2
 
-import QGroundControl.FactSystem    1.0
-import QGroundControl.FactControls  1.0
-import QGroundControl.Palette       1.0
-import QGroundControl.Controls      1.0
-import QGroundControl.ScreenTools   1.0
+import QGroundControl                 1.0
+import QGroundControl.FactSystem      1.0
+import QGroundControl.FactControls    1.0
+import QGroundControl.Palette         1.0
+import QGroundControl.Controls        1.0
+import QGroundControl.ScreenTools     1.0
+import QGroundControl.SettingsManager 1.0
 
 SetupPage {
     id:             cameraPage
@@ -183,7 +185,7 @@ SetupPage {
                 ListElement { text: qsTr("Channel 14"); value: 14 }
             }
 
-            property bool _allVisible: showAll.checked
+            property bool _allVisible: QGroundControl.settingsManager.appSettings.showAdvancedSettings.value
 
             // Gimbal axis setup
             Component {
@@ -452,11 +454,6 @@ SetupPage {
                     } // Rectangle
                 } // Item
             } // Component - gimbalSettings
-
-            QGCCheckBox {
-                id: showAll
-                text: "Show all settings (advanced)"
-            }
 
             Loader {
                 id:                 gimbalDirectionTiltLoader
