@@ -369,6 +369,7 @@ QGCView {
             visible:            QGroundControl.videoManager.hasVideo
             isHidden:           !_isPipVisible
             isDark:             isBackgroundDark
+            enablePopup:        _mainIsMap
             onActivated: {
                 _mainIsMap = !_mainIsMap
                 setStates()
