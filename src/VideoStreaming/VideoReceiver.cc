@@ -58,6 +58,7 @@ VideoReceiver::VideoReceiver(QObject* parent)
     , _stopping(false)
     , _sink(NULL)
     , _tee(NULL)
+    , _volume(1.0)
     , _pipeline(NULL)
     , _pipelineStopRec(NULL)
     , _videoSink(NULL)
@@ -325,8 +326,16 @@ VideoReceiver::start()
 
         // Run audio
         GError *error = NULL;
-        GstElement* audiopipeline = gst_parse_launch("udpsrc port=5601 ! application/x-rtp, media=audio, clock-rate=44100, encoding-name=L16, encoding-params=1, channels=1, payload=96 ! rtpL16depay ! audioconvert ! queue ! autoaudiosink sync=false", &error);
+        GstElement* audiopipeline = gst_parse_launch("udpsrc port=5601 ! application/x-rtp, media=audio, clock-rate=44100, encoding-name=L16, encoding-params=1, channels=1, payload=96 ! rtpL16depay ! audioconvert ! volume volume=1.0 ! queue ! autoaudiosink sync=false", &error);
         gst_element_set_state(audiopipeline, GST_STATE_PLAYING);
+        GstElement* volume = gst_bin_get_by_name(GST_BIN(audiopipeline), "volume0");
+        if (volume == NULL) {
+            qCritical() << "Can't find volume in pipeline.";
+        }
+
+        connect(this, &VideoReceiver::volumeChanged, [=](){
+            g_object_set(volume, "volume", _volume, NULL);
+        });
 
     } while(0);
 
