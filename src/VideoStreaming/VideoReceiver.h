@@ -61,7 +61,7 @@ public:
     bool            showFullScreen  () { return _showFullScreen; }
     void            grabImage       (QString imageFile);
 
-    void        setVolume           (float vol) { _volume = vol; emit volumeChanged(); }
+    void        setVolume           (float vol);
     void        setShowFullScreen   (bool show) { _showFullScreen = show; emit showFullScreenChanged(); }
 
 signals:
@@ -123,10 +123,13 @@ private:
     void                        _shutdownRecordingBranch();
     void                        _shutdownPipeline       ();
     void                        _setVideoSink           (GstElement* sink);
+    void                        _startAudio             ();
 
     GstElement*     _pipeline;
     GstElement*     _pipelineStopRec;
     GstElement*     _videoSink;
+    GstElement*     _audioPipeline;
+    GstElement*     _gstVolume;
 
     //-- Wait for Video Server to show up before starting
     QTimer          _frameTimer;

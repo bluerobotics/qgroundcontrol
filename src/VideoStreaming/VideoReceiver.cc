@@ -62,6 +62,8 @@ VideoReceiver::VideoReceiver(QObject* parent)
     , _pipeline(NULL)
     , _pipelineStopRec(NULL)
     , _videoSink(NULL)
+    , _audioPipeline(NULL)
+    , _gstVolume(NULL)
     , _socket(NULL)
     , _serverPresent(false)
 #endif
@@ -79,6 +81,7 @@ VideoReceiver::VideoReceiver(QObject* parent)
     connect(this, &VideoReceiver::msgStateChangedReceived, this, &VideoReceiver::_handleStateChanged);
     connect(&_frameTimer, &QTimer::timeout, this, &VideoReceiver::_updateTimer);
     _frameTimer.start(1000);
+    _startAudio();
 #endif
 }
 
@@ -88,6 +91,15 @@ VideoReceiver::~VideoReceiver()
     stop();
     if(_socket) {
         delete _socket;
+    }
+    if(_audioPipeline) {
+        if(_gstVolume) {
+            gst_object_unref(_gstVolume);
+            _gstVolume = NULL;
+        }
+        gst_element_set_state(_audioPipeline, GST_STATE_NULL);
+        gst_object_unref(_audioPipeline);
+        _audioPipeline = NULL;
     }
     if (_videoSink) {
         gst_object_unref(_videoSink);
@@ -324,19 +336,6 @@ VideoReceiver::start()
         GST_DEBUG_BIN_TO_DOT_FILE(GST_BIN(_pipeline), GST_DEBUG_GRAPH_SHOW_ALL, "pipeline-paused");
         running = gst_element_set_state(_pipeline, GST_STATE_PLAYING) != GST_STATE_CHANGE_FAILURE;
 
-        // Run audio
-        GError *error = NULL;
-        GstElement* audiopipeline = gst_parse_launch("udpsrc port=5601 ! application/x-rtp, media=audio, clock-rate=44100, encoding-name=L16, encoding-params=1, channels=1, payload=96 ! rtpL16depay ! audioconvert ! volume volume=1.0 ! queue ! autoaudiosink sync=false", &error);
-        gst_element_set_state(audiopipeline, GST_STATE_PLAYING);
-        GstElement* volume = gst_bin_get_by_name(GST_BIN(audiopipeline), "volume0");
-        if (volume == NULL) {
-            qCritical() << "Can't find volume in pipeline.";
-        }
-
-        connect(this, &VideoReceiver::volumeChanged, [=](){
-            g_object_set(volume, "volume", _volume, NULL);
-        });
-
     } while(0);
 
     if (caps != NULL) {
@@ -390,6 +389,32 @@ VideoReceiver::start()
     }
     _starting = false;
 #endif
+}
+
+void
+VideoReceiver::_startAudio()
+{
+    // Run audio
+    GError *error = NULL;
+    _audioPipeline = gst_parse_launch("udpsrc port=5601 ! application/x-rtp, media=audio, clock-rate=44100, encoding-name=L16, encoding-params=1, channels=1, payload=96 ! rtpL16depay ! audioconvert ! volume volume=1.0 ! queue ! autoaudiosink sync=false", &error);
+
+    if (_audioPipeline) {
+        gst_element_set_state(_audioPipeline, GST_STATE_PLAYING);
+
+        _gstVolume = gst_bin_get_by_name(GST_BIN(_audioPipeline), "volume0");
+    }
+}
+
+void
+VideoReceiver::setVolume(float vol)
+{
+    _volume = vol;
+    if(_gstVolume) {
+        g_object_set(_gstVolume, "volume", _volume, NULL);
+        qCDebug(VideoReceiverLog) << "Set volume:" << vol;
+    } else {
+        qCDebug(VideoReceiverLog) << "No volume control";
+    }
 }
 
 //-----------------------------------------------------------------------------
