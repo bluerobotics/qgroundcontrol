@@ -292,6 +292,10 @@ QGCView {
                         target: _flightVideoPipControl
                         inPopup: false
                     }
+                    ParentChange {
+                        target: streamControls
+                        parent: _flightVideoPipControl
+                    }
                 },
                 State {
                     name:   "fullMode"
@@ -302,6 +306,10 @@ QGCView {
                     PropertyChanges {
                         target: _flightVideoPipControl
                         inPopup: false
+                    }
+                    ParentChange {
+                        target: streamControls
+                        parent: _flightVideo
                     }
                 },
                 State {
@@ -320,6 +328,10 @@ QGCView {
                     PropertyChanges {
                         target: _flightVideoPipControl
                         inPopup: true
+                    }
+                    ParentChange {
+                        target: streamControls
+                        parent: _flightVideo
                     }
                 },
                 State {
@@ -341,8 +353,126 @@ QGCView {
                         target: _flightVideoPipControl
                         inPopup: false
                     }
+                    ParentChange {
+                        target: streamControls
+                        parent: _flightVideoPipControl
+                    }
                 }
             ]
+
+            Item {
+                id: streamControls
+                anchors.fill: parent
+                z: parent.z + 1
+
+                Rectangle {
+                    id:                 audioBtn
+                    //z:                  flightDisplayViewWidgets.z + 1
+                    height:             ScreenTools.defaultFontPixelHeight * 2
+                    width:              height
+                    anchors.margins:    ScreenTools.defaultFontPixelHeight / 2
+                    anchors.bottom:     parent.bottom
+                    anchors.right:      recordBtnContainer.left
+                    color:              "transparent"
+                    visible:            true
+
+                    QGCColoredImage {
+                        source:         "/qmlimages/Volume.svg"
+                        color:          "white"
+                        fillMode:       Image.PreserveAspectFit
+                        mipmap:         true
+                        width:          parent.width*0.75
+                        height:         parent.height*0.75
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter:   parent.verticalCenter
+                        visible:        true
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: {
+                            volumeSlider.visible = !volumeSlider.visible
+                        }
+                    }
+                }
+
+                Slider {
+                    id:                 volumeSlider
+                    //z:                  _flightVideoPipControl.z + 1
+                    anchors.verticalCenter: audioBtn.verticalCenter
+                    anchors.margins:    ScreenTools.defaultFontPixelHeight / 2
+                    anchors.right:      audioBtn.left
+                    Layout.fillWidth:   true
+                    minimumValue:       0
+                    stepSize:           0.05
+                    maximumValue:       1
+                    visible:            false
+                    onValueChanged:     _videoReceiver.volume = value
+                    Component.onCompleted: value = _videoReceiver.volume
+
+                }
+
+                // Button to start/stop video recording
+                Item {
+                    id:                 recordBtnContainer
+                    anchors.margins:    ScreenTools.defaultFontPixelHeight / 2
+                    anchors.bottom:     parent.bottom
+                    anchors.right:      parent.right
+                    height:             ScreenTools.defaultFontPixelHeight * 2
+                    width:              height
+                    visible:            _videoReceiver && _videoReceiver.videoRunning && QGroundControl.settingsManager.videoSettings.showRecControl.rawValue && _flightVideo.visible
+                    opacity:            0.75
+
+                    onVisibleChanged:   recordBtn.visible = true
+
+                    Rectangle {
+                        id:                 recordBtn
+                        anchors.top:        parent.top
+                        anchors.bottom:     parent.bottom
+                        width:              height
+                        radius:             _recordingVideo ? 0 : height
+                        color:              "red"
+
+                        QGCColoredImage {
+                            anchors.top:                parent.top
+                            anchors.bottom:             parent.bottom
+                            anchors.horizontalCenter:   parent.horizontalCenter
+                            width:                      height * 0.625
+                            sourceSize.width:           width
+                            source:                     "/qmlimages/CameraIcon.svg"
+                            fillMode:                   Image.PreserveAspectFit
+                            color:                      "white"
+                        }
+
+                        SequentialAnimation on visible {
+                            id:             recordBtnAnimation
+                            running:        _recordingVideo
+                            loops:          Animation.Infinite
+
+                            PropertyAnimation { to: false; duration: 1000 }
+                            PropertyAnimation { to: true;  duration: 1000 }
+                        }
+                    }
+
+                    MouseArea {
+                        id:             recordBtnMouseArea
+                        anchors.fill:   parent
+                        onClicked: {
+                            if (_videoReceiver) {
+                                if (_recordingVideo) {
+                                    _videoReceiver.stopRecording()
+                                    recordBtnAnimation.complete()
+                                    recordBtn.visible= true
+                                } else {
+                                    _videoReceiver.startRecording()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             //-- Video Streaming
             FlightDisplayViewVideo {
                 id:             videoStreaming
@@ -355,113 +485,6 @@ QGCView {
                 anchors.fill:   parent
                 visible:        !QGroundControl.videoManager.isGStreamer
                 source:         QGroundControl.videoManager.uvcEnabled ? "qrc:/qml/FlightDisplayViewUVC.qml" : "qrc:/qml/FlightDisplayViewDummy.qml"
-            }
-
-            Rectangle {
-                id:                 audioBtn
-                z:                  flightDisplayViewWidgets.z + 1
-                height:             ScreenTools.defaultFontPixelHeight * 2
-                width:              height
-                anchors.margins:    ScreenTools.defaultFontPixelHeight / 2
-                anchors.bottom:     _flightVideo.bottom
-                anchors.right:      recordBtnContainer.left
-                color:              "transparent"
-                visible:            true
-
-                QGCColoredImage {
-                    source:         "/qmlimages/Volume.svg"
-                    color:          "white"
-                    fillMode:       Image.PreserveAspectFit
-                    mipmap:         true
-                    width:          parent.width*0.75
-                    height:         parent.height*0.75
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.verticalCenter:   parent.verticalCenter
-                    visible:        true
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onClicked: {
-                        volumeSlider.visible = !volumeSlider.visible
-                    }
-                }
-            }
-
-            Slider {
-                id:                 volumeSlider
-                z:                  _flightVideoPipControl.z + 1
-                anchors.verticalCenter: audioBtn.verticalCenter
-                anchors.margins:    ScreenTools.defaultFontPixelHeight / 2
-                anchors.right:      audioBtn.left
-                Layout.fillWidth:   true
-                minimumValue:       0
-                stepSize:           0.05
-                maximumValue:       1
-                visible:            false
-                onValueChanged:     _videoReceiver.volume = value
-                Component.onCompleted: value = _videoReceiver.volume
-
-            }
-
-            // Button to start/stop video recording
-            Item {
-                id:                 recordBtnContainer
-                anchors.margins:    ScreenTools.defaultFontPixelHeight / 2
-                anchors.bottom:     parent.bottom
-                anchors.right:      parent.right
-                height:             ScreenTools.defaultFontPixelHeight * 2
-                width:              height
-                visible:            _videoReceiver && _videoReceiver.videoRunning && QGroundControl.settingsManager.videoSettings.showRecControl.rawValue && _flightVideo.visible
-                opacity:            0.75
-
-                onVisibleChanged:   recordBtn.visible = true
-
-                Rectangle {
-                    id:                 recordBtn
-                    anchors.top:        parent.top
-                    anchors.bottom:     parent.bottom
-                    width:              height
-                    radius:             _recordingVideo ? 0 : height
-                    color:              "red"
-
-                    QGCColoredImage {
-                        anchors.top:                parent.top
-                        anchors.bottom:             parent.bottom
-                        anchors.horizontalCenter:   parent.horizontalCenter
-                        width:                      height * 0.625
-                        sourceSize.width:           width
-                        source:                     "/qmlimages/CameraIcon.svg"
-                        fillMode:                   Image.PreserveAspectFit
-                        color:                      "white"
-                    }
-
-                    SequentialAnimation on visible {
-                        id:             recordBtnAnimation
-                        running:        _recordingVideo
-                        loops:          Animation.Infinite
-
-                        PropertyAnimation { to: false; duration: 1000 }
-                        PropertyAnimation { to: true;  duration: 1000 }
-                    }
-                }
-
-                MouseArea {
-                    id:             recordBtnMouseArea
-                    anchors.fill:   parent
-                    onClicked: {
-                        if (_videoReceiver) {
-                            if (_recordingVideo) {
-                                _videoReceiver.stopRecording()
-                                recordBtnAnimation.complete()
-                                recordBtn.visible= true
-                            } else {
-                                _videoReceiver.startRecording()
-                            }
-                        }
-                    }
-                }
             }
         }
 
@@ -490,15 +513,6 @@ QGCView {
             }
             onNewWidth: {
                 _pipSize = newWidth
-            }
-
-            MouseArea {
-                anchors.bottom: parent.bottom
-                anchors.right:  parent.right
-                height:         recordBtnContainer.height
-                width:          height
-                visible:        _mainIsMap
-                onClicked:      recordBtnMouseArea.clicked(mouse) // passthrough
             }
         }
 
@@ -766,4 +780,6 @@ QGCView {
             visible:            false
         }
     }
+
+
 }
