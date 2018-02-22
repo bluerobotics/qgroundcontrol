@@ -48,7 +48,7 @@ public:
 
 #if defined(QGC_GST_STREAMING)
     bool            running         () { return _running;   }
-    bool            volume          () { return _running;   }
+    float           volume          () { return _volume;   }
     bool            recording       () { return _recording; }
     bool            streaming       () { return _streaming; }
     bool            starting        () { return _starting;  }
