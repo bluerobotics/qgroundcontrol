@@ -82,6 +82,7 @@ VideoReceiver::VideoReceiver(QObject* parent)
     connect(&_frameTimer, &QTimer::timeout, this, &VideoReceiver::_updateTimer);
     _frameTimer.start(1000);
     _startAudio();
+    loadSettings();
 #endif
 }
 
@@ -104,6 +105,7 @@ VideoReceiver::~VideoReceiver()
     if (_videoSink) {
         gst_object_unref(_videoSink);
     }
+    storeSettings();
 #endif
     if(_videoSurface)
         delete _videoSurface;
@@ -408,7 +410,12 @@ VideoReceiver::_startAudio()
 void
 VideoReceiver::setVolume(float vol)
 {
+    if(vol < 0 || vol > 1) {
+        vol = 1;
+    }
+
     _volume = vol;
+
     if(_gstVolume) {
         g_object_set(_gstVolume, "volume", _volume, NULL);
         qCDebug(VideoReceiverLog) << "Set volume:" << vol;
@@ -817,3 +824,24 @@ VideoReceiver::_updateTimer()
 #endif
 }
 
+//-----------------------------------------------------------------------------
+#if defined(QGC_GST_STREAMING)
+void
+VideoReceiver::loadSettings()
+{
+    // Load defaults from settings
+    QSettings settings;
+    settings.beginGroup("QGC_VIDEORECEIVER");
+    if(settings.contains("VOLUME_LEVEL")) {
+        setVolume(settings.value("VOLUME_LEVEL").toFloat());
+    }
+}
+
+void VideoReceiver::storeSettings()
+{
+    // Store settings
+    QSettings settings;
+    settings.beginGroup("QGC_VIDEORECEIVER");
+    settings.setValue("VOLUME_LEVEL", volume());
+}
+#endif

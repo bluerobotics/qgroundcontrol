@@ -97,6 +97,9 @@ private slots:
 private:
 #if defined(QGC_GST_STREAMING)
 
+    void loadSettings();
+    void storeSettings();
+
     typedef struct
     {
         GstPad*         teepad;
