@@ -403,7 +403,7 @@ QGCView {
                     anchors.verticalCenter: audioBtn.verticalCenter
                     anchors.margins:    ScreenTools.defaultFontPixelHeight / 2
                     anchors.right:      audioBtn.left
-                    Layout.fillWidth:   true
+                    width:              _pipSize - 4*audioBtn.width < 200 && _mainIsMap ? _pipSize - 4*audioBtn.width : 200
                     minimumValue:       0
                     stepSize:           0.05
                     maximumValue:       1
