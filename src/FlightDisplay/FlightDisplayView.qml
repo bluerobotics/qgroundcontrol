@@ -374,7 +374,7 @@ QGCView {
                     anchors.bottom:     parent.bottom
                     anchors.right:      recordBtnContainer.left
                     color:              "transparent"
-                    visible:            true
+                    visible:            _isPipVisible
 
                     QGCColoredImage {
                         source:         "/qmlimages/Volume.svg"
@@ -385,14 +385,14 @@ QGCView {
                         height:         parent.height*0.75
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.verticalCenter:   parent.verticalCenter
-                        visible:        true
+                        visible:        _isPipVisible
                     }
 
                     MouseArea {
                         anchors.fill: parent
                         hoverEnabled: true
                         onClicked: {
-                            volumeSlider.visible = !volumeSlider.visible
+                            volumeSlider.visible = !volumeSlider.visible && _isPipVisible
                         }
                     }
                 }
