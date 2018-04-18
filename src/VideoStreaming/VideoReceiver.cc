@@ -218,6 +218,7 @@ void
 VideoReceiver::start()
 {
 #if defined(QGC_GST_STREAMING)
+    _stop = false;
     qCDebug(VideoReceiverLog) << "start()";
 
     if (_uri.isEmpty()) {
@@ -429,6 +430,7 @@ void
 VideoReceiver::stop()
 {
 #if defined(QGC_GST_STREAMING)
+    _stop = true;
     qCDebug(VideoReceiverLog) << "stop()";
     if(!_streaming) {
         _shutdownPipeline();
@@ -816,7 +818,7 @@ VideoReceiver::_updateTimer()
                 stop();
             }
         } else {
-            if(!running() && !_uri.isEmpty()) {
+            if(!_stop && !running() && !_uri.isEmpty()) {
                 start();
             }
         }
