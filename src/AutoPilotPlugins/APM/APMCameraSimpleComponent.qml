@@ -325,6 +325,7 @@ SetupPage {
                                             }
                                         }
 
+                                        /* Commented code is easier to maintain than deleted code
                                         Row {
                                             spacing: _margins
                                             enabled: directionEnabled
@@ -342,6 +343,9 @@ SetupPage {
                                                 fact:       mountRcInFact
                                                 indexModel: false
                                             }
+                                        }*/
+                                        Component.onCompleted: {
+                                            mountRcInFact.value = hardCodedChanned
                                         }
                                     } // Column - Input/output channel setup
 
@@ -523,6 +527,7 @@ SetupPage {
                 id:                 gimbalDirectionTiltLoader
                 sourceComponent:    gimbalDirectionSettings
 
+                property int    hardCodedChanned:   8 // ArduSub/joystick.cpp cam_tilt
                 property string directionTitle:     qsTr("Tilt")
                 property bool   directionEnabled:   _tiltEnabled
                 property int    gimbalOutIndex:     0
@@ -542,6 +547,7 @@ SetupPage {
                 sourceComponent:    gimbalDirectionSettings
                 visible: _allVisible
 
+                property int    hardCodedChanned:   0 // ArduSub/joystick.cpp cam_roll does not exist
                 property string directionTitle:     qsTr("Roll")
                 property bool   directionEnabled:   _rollEnabled
                 property int    gimbalOutIndex:     0
@@ -561,6 +567,7 @@ SetupPage {
                 sourceComponent:    gimbalDirectionSettings
                 visible: _allVisible
 
+                property int    hardCodedChanned:   7 // ArduSub/joystick.cpp cam_pan
                 property string directionTitle:     qsTr("Pan")
                 property bool   directionEnabled:   _panEnabled
                 property int    gimbalOutIndex:     0
