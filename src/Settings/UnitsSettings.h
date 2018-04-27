@@ -46,6 +46,13 @@ public:
         TemperatureUnitsFarenheit,
     };
 
+    enum UnitTypes {
+        UnitTypeDistance = 0,
+        UnitTypeArea,
+        UnitTypeSpeed,
+        UnitTypeTemperature,
+    };
+
     Q_ENUMS(DistanceUnits)
     Q_ENUMS(AreaUnits)
     Q_ENUMS(SpeedUnits)

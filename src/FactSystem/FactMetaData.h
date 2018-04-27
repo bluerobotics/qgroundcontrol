@@ -19,6 +19,9 @@
 #include <QVariant>
 #include <QJsonObject>
 
+// This gives compiler error in UnitsSettings.h: expected class name before { token
+//#include "UnitsSettings.h"
+
 /// Holds the meta data associated with a Fact.
 ///
 /// Holds the meta data associated with a Fact. This is kept in a separate object from the Fact itself
@@ -186,8 +189,10 @@ private:
     struct AppSettingsTranslation_s {
         const char* rawUnits;
         const char* cookedUnits;
-        bool        speed;
-        uint32_t    speedOrDistanceUnits;
+        uint32_t        unitsType;
+        //UnitsSettings::UnitTypes unitType;
+        uint32_t    units;
+
         Translator  rawTranslator;
         Translator  cookedTranslator;
 

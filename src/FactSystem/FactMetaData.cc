@@ -42,25 +42,25 @@ const FactMetaData::BuiltInTranslation_s FactMetaData::_rgBuiltInTranslations[] 
 
 // Translations driven by app settings
 const FactMetaData::AppSettingsTranslation_s FactMetaData::_rgAppSettingsTranslations[] = {
-    { "m",      "m",        false,  UnitsSettings::DistanceUnitsMeters,         FactMetaData::_defaultTranslator,                   FactMetaData::_defaultTranslator },
-    { "meters", "meters",   false,  UnitsSettings::DistanceUnitsMeters,         FactMetaData::_defaultTranslator,                   FactMetaData::_defaultTranslator },
-    { "cm/px",  "cm/px",    false,  UnitsSettings::DistanceUnitsMeters,         FactMetaData::_defaultTranslator,                   FactMetaData::_defaultTranslator },
-    { "m/s",    "m/s",      true,   UnitsSettings::SpeedUnitsMetersPerSecond,   FactMetaData::_defaultTranslator,                   FactMetaData::_defaultTranslator },
-    { "C",      "C",        false,  UnitsSettings::TemperatureUnitsCelsius,     FactMetaData::_defaultTranslator,                   FactMetaData::_defaultTranslator },
-    { "m^2",    "m^2",      false,  UnitsSettings::AreaUnitsSquareMeters,       FactMetaData::_defaultTranslator,                   FactMetaData::_defaultTranslator },
-    { "m",      "ft",       false,  UnitsSettings::DistanceUnitsFeet,           FactMetaData::_metersToFeet,                        FactMetaData::_feetToMeters },
-    { "meters", "ft",       false,  UnitsSettings::DistanceUnitsFeet,           FactMetaData::_metersToFeet,                        FactMetaData::_feetToMeters },
-    { "cm/px",  "in/px",    false,  UnitsSettings::DistanceUnitsFeet,           FactMetaData::_centimetersToInches,                 FactMetaData::_inchesToCentimeters },
-    { "m^2",    "km^2",     false,  UnitsSettings::AreaUnitsSquareKilometers,   FactMetaData::_squareMetersToSquareKilometers,      FactMetaData::_squareKilometersToSquareMeters },
-    { "m^2",    "ha",       false,  UnitsSettings::AreaUnitsHectares,           FactMetaData::_squareMetersToHectares,              FactMetaData::_hectaresToSquareMeters },
-    { "m^2",    "ft^2",     false,  UnitsSettings::AreaUnitsSquareFeet,         FactMetaData::_squareMetersToSquareFeet,            FactMetaData::_squareFeetToSquareMeters },
-    { "m^2",    "ac",       false,  UnitsSettings::AreaUnitsAcres,              FactMetaData::_squareMetersToAcres,                 FactMetaData::_acresToSquareMeters },
-    { "m^2",    "mi^2",     false,  UnitsSettings::AreaUnitsSquareMiles,        FactMetaData::_squareMetersToSquareMiles,           FactMetaData::_squareMilesToSquareMeters },
-    { "m/s",    "ft/s",     true,   UnitsSettings::SpeedUnitsFeetPerSecond,     FactMetaData::_metersToFeet,                        FactMetaData::_feetToMeters },
-    { "m/s",    "mph",      true,   UnitsSettings::SpeedUnitsMilesPerHour,      FactMetaData::_metersPerSecondToMilesPerHour,       FactMetaData::_milesPerHourToMetersPerSecond },
-    { "m/s",    "km/h",     true,   UnitsSettings::SpeedUnitsKilometersPerHour, FactMetaData::_metersPerSecondToKilometersPerHour,  FactMetaData::_kilometersPerHourToMetersPerSecond },
-    { "m/s",    "kn",       true,   UnitsSettings::SpeedUnitsKnots,             FactMetaData::_metersPerSecondToKnots,              FactMetaData::_knotsToMetersPerSecond },
-    { "C",      "F",        false,  UnitsSettings::TemperatureUnitsFarenheit,   FactMetaData::_celsiusToFarenheit,                  FactMetaData::_farenheitToCelsius },
+    { "m",      "m",        UnitsSettings::UnitTypeDistance   ,  UnitsSettings::DistanceUnitsMeters,         FactMetaData::_defaultTranslator,                   FactMetaData::_defaultTranslator },
+    { "meters", "meters",   UnitsSettings::UnitTypeDistance   ,  UnitsSettings::DistanceUnitsMeters,         FactMetaData::_defaultTranslator,                   FactMetaData::_defaultTranslator },
+    { "cm/px",  "cm/px",    UnitsSettings::UnitTypeDistance   ,  UnitsSettings::DistanceUnitsMeters,         FactMetaData::_defaultTranslator,                   FactMetaData::_defaultTranslator },
+    { "m/s",    "m/s",      UnitsSettings::UnitTypeSpeed      ,  UnitsSettings::SpeedUnitsMetersPerSecond,   FactMetaData::_defaultTranslator,                   FactMetaData::_defaultTranslator },
+    { "C",      "C",        UnitsSettings::UnitTypeTemperature,  UnitsSettings::TemperatureUnitsCelsius,     FactMetaData::_defaultTranslator,                   FactMetaData::_defaultTranslator },
+    { "m^2",    "m^2",      UnitsSettings::UnitTypeArea       ,  UnitsSettings::AreaUnitsSquareMeters,       FactMetaData::_defaultTranslator,                   FactMetaData::_defaultTranslator },
+    { "m",      "ft",       UnitsSettings::UnitTypeDistance   ,  UnitsSettings::DistanceUnitsFeet,           FactMetaData::_metersToFeet,                        FactMetaData::_feetToMeters },
+    { "meters", "ft",       UnitsSettings::UnitTypeDistance   ,  UnitsSettings::DistanceUnitsFeet,           FactMetaData::_metersToFeet,                        FactMetaData::_feetToMeters },
+    { "cm/px",  "in/px",    UnitsSettings::UnitTypeDistance   ,  UnitsSettings::DistanceUnitsFeet,           FactMetaData::_centimetersToInches,                 FactMetaData::_inchesToCentimeters },
+    { "m^2",    "km^2",     UnitsSettings::UnitTypeArea       ,  UnitsSettings::AreaUnitsSquareKilometers,   FactMetaData::_squareMetersToSquareKilometers,      FactMetaData::_squareKilometersToSquareMeters },
+    { "m^2",    "ha",       UnitsSettings::UnitTypeArea       ,  UnitsSettings::AreaUnitsHectares,           FactMetaData::_squareMetersToHectares,              FactMetaData::_hectaresToSquareMeters },
+    { "m^2",    "ft^2",     UnitsSettings::UnitTypeArea       ,  UnitsSettings::AreaUnitsSquareFeet,         FactMetaData::_squareMetersToSquareFeet,            FactMetaData::_squareFeetToSquareMeters },
+    { "m^2",    "ac",       UnitsSettings::UnitTypeArea       ,  UnitsSettings::AreaUnitsAcres,              FactMetaData::_squareMetersToAcres,                 FactMetaData::_acresToSquareMeters },
+    { "m^2",    "mi^2",     UnitsSettings::UnitTypeArea       ,  UnitsSettings::AreaUnitsSquareMiles,        FactMetaData::_squareMetersToSquareMiles,           FactMetaData::_squareMilesToSquareMeters },
+    { "m/s",    "ft/s",     UnitsSettings::UnitTypeSpeed      ,  UnitsSettings::SpeedUnitsFeetPerSecond,     FactMetaData::_metersToFeet,                        FactMetaData::_feetToMeters },
+    { "m/s",    "mph",      UnitsSettings::UnitTypeSpeed      ,  UnitsSettings::SpeedUnitsMilesPerHour,      FactMetaData::_metersPerSecondToMilesPerHour,       FactMetaData::_milesPerHourToMetersPerSecond },
+    { "m/s",    "km/h",     UnitsSettings::UnitTypeSpeed      ,  UnitsSettings::SpeedUnitsKilometersPerHour, FactMetaData::_metersPerSecondToKilometersPerHour,  FactMetaData::_kilometersPerHourToMetersPerSecond },
+    { "m/s",    "kn",       UnitsSettings::UnitTypeSpeed      ,  UnitsSettings::SpeedUnitsKnots,             FactMetaData::_metersPerSecondToKnots,              FactMetaData::_knotsToMetersPerSecond },
+    { "C",      "F",        UnitsSettings::UnitTypeTemperature,  UnitsSettings::TemperatureUnitsFarenheit,   FactMetaData::_celsiusToFarenheit,                  FactMetaData::_farenheitToCelsius },
 };
 
 const char* FactMetaData::_decimalPlacesJsonKey =       "decimalPlaces";
@@ -675,12 +675,31 @@ void FactMetaData::_setAppSettingsTranslators(void)
         for (size_t i=0; i<sizeof(_rgAppSettingsTranslations)/sizeof(_rgAppSettingsTranslations[0]); i++) {
             const AppSettingsTranslation_s* pAppSettingsTranslation = &_rgAppSettingsTranslations[i];
 
-            if ((pAppSettingsTranslation->rawUnits == _rawUnits && // Temperature
-                    (!pAppSettingsTranslation->speed && pAppSettingsTranslation->speedOrDistanceUnits == qgcApp()->toolbox()->settingsManager()->unitsSettings()->temperatureUnits()->rawValue().toUInt())) ||
-            (pAppSettingsTranslation->rawUnits == _rawUnits.toLower() && // Speed and Distance
-                    ((pAppSettingsTranslation->speed && pAppSettingsTranslation->speedOrDistanceUnits == qgcApp()->toolbox()->settingsManager()->unitsSettings()->speedUnits()->rawValue().toUInt()) ||
-                    (!pAppSettingsTranslation->speed && pAppSettingsTranslation->speedOrDistanceUnits == qgcApp()->toolbox()->settingsManager()->unitsSettings()->distanceUnits()->rawValue().toUInt())))) {
-                _cookedUnits = pAppSettingsTranslation->cookedUnits;
+            if (!(_rawUnits == pAppSettingsTranslation->rawUnits) && !(_rawUnits.toLower() == pAppSettingsTranslation->rawUnits)) {
+                continue;
+            }
+
+            uint settingsUnits = 0;
+
+            switch (pAppSettingsTranslation->unitsType) {
+            case UnitsSettings::UnitTypeDistance:
+                settingsUnits = qgcApp()->toolbox()->settingsManager()->unitsSettings()->distanceUnits()->rawValue().toUInt();
+                break;
+            case UnitsSettings::UnitTypeSpeed:
+                settingsUnits = qgcApp()->toolbox()->settingsManager()->unitsSettings()->speedUnits()->rawValue().toUInt();
+                break;
+            case UnitsSettings::UnitTypeArea:
+                settingsUnits = qgcApp()->toolbox()->settingsManager()->unitsSettings()->areaUnits()->rawValue().toUInt();
+                break;
+            case UnitsSettings::UnitTypeTemperature:
+                settingsUnits = qgcApp()->toolbox()->settingsManager()->unitsSettings()->temperatureUnits()->rawValue().toUInt();
+                break;
+            default:
+                break;
+            }
+
+            if (settingsUnits == pAppSettingsTranslation->units) {
+                 _cookedUnits = pAppSettingsTranslation->cookedUnits;
                 setTranslators(pAppSettingsTranslation->rawTranslator, pAppSettingsTranslation->cookedTranslator);
                 return;
             }
@@ -693,8 +712,11 @@ const FactMetaData::AppSettingsTranslation_s* FactMetaData::_findAppSettingsDist
     for (size_t i=0; i<sizeof(_rgAppSettingsTranslations)/sizeof(_rgAppSettingsTranslations[0]); i++) {
         const AppSettingsTranslation_s* pAppSettingsTranslation = &_rgAppSettingsTranslations[i];
 
-        if (pAppSettingsTranslation->rawUnits == rawUnits &&
-                (!pAppSettingsTranslation->speed && pAppSettingsTranslation->speedOrDistanceUnits == qgcApp()->toolbox()->settingsManager()->unitsSettings()->distanceUnits()->rawValue().toUInt())) {
+        uint settingsUnits = qgcApp()->toolbox()->settingsManager()->unitsSettings()->areaUnits()->rawValue().toUInt();
+
+        if (pAppSettingsTranslation->unitsType == UnitsSettings::UnitTypeDistance
+                && pAppSettingsTranslation->units == settingsUnits
+                && pAppSettingsTranslation->rawUnits == rawUnits) {
             return pAppSettingsTranslation;
         }
     }
@@ -707,9 +729,11 @@ const FactMetaData::AppSettingsTranslation_s* FactMetaData::_findAppSettingsArea
     for (size_t i=0; i<sizeof(_rgAppSettingsTranslations)/sizeof(_rgAppSettingsTranslations[0]); i++) {
         const AppSettingsTranslation_s* pAppSettingsTranslation = &_rgAppSettingsTranslations[i];
 
-        if (pAppSettingsTranslation->rawUnits == rawUnits &&
-                (!pAppSettingsTranslation->speed && pAppSettingsTranslation->speedOrDistanceUnits == qgcApp()->toolbox()->settingsManager()->unitsSettings()->areaUnits()->rawValue().toUInt())
-                ) {
+        uint settingsUnits = qgcApp()->toolbox()->settingsManager()->unitsSettings()->areaUnits()->rawValue().toUInt();
+
+        if (pAppSettingsTranslation->unitsType == UnitsSettings::UnitTypeArea
+                && pAppSettingsTranslation->units == settingsUnits
+                && pAppSettingsTranslation->rawUnits == rawUnits) {
             return pAppSettingsTranslation;
         }
     }
