@@ -816,6 +816,8 @@ VideoReceiver::_updateTimer()
             }
             if(elapsed > 2 && _videoSurface) {
                 stop();
+                // We want to start it back again with _updateTimer
+                _stop = false;
             }
         } else {
             if(!_stop && !running() && !_uri.isEmpty()) {
