@@ -146,62 +146,6 @@ SetupPage {
                     } // Row
                 }
 
-                // allSlider does not work with the current _lastIndex logic...
-//                Column {
-//                    spacing:    ScreenTools.defaultFontPixelWidth
-
-//                    QGCLabel {
-//                        anchors.horizontalCenter:   parent.horizontalCenter
-//                        text:                       qsTr("All")
-//                    }
-
-//                    QGCSlider {
-//                        id:                         allSlider
-//                        height:                     ScreenTools.defaultFontPixelHeight * _sliderHeight
-//                        orientation:                Qt.Vertical
-//                        maximumValue:               100
-//                        value:                      neutralValue
-
-//                        onValueChanged: {
-//                            for (var sliderIndex=0; sliderIndex<sliderRepeater.count; sliderIndex++) {
-//                                sliderRepeater.itemAt(sliderIndex).motorSlider.value = allSlider.value
-//                            }
-//                        }
-
-//                        // Give slider 'center sprung' behavior
-//                        onPressedChanged: {
-//                            if (!allSlider.pressed) {
-//                                allSlider.value = neutralValue
-//                            }
-//                        }
-
-//                        MouseArea {
-//                            anchors.fill: parent
-//                            onWheel: {
-//                                // do nothing
-//                                wheel.accepted = true;
-//                            }
-//                            onPressed: {
-//                                // propogate/accept
-//                                mouse.accepted = false;
-//                            }
-//                            onReleased: {
-//                                // propogate/accept
-//                                mouse.accepted = false;
-//                            }
-//                        }
-//                    }
-//                } // Column
-
-//                MultiRotorMotorDisplay {
-//                    anchors.top:    parent.top
-//                    anchors.bottom: parent.bottom
-//                    width:          height
-//                    motorCount:     controller.vehicle.motorCount
-//                    xConfig:        controller.vehicle.xConfigMotors
-//                    coaxial:        controller.vehicle.coaxialMotors
-//                }
-
                 APMSubMotorDisplay {
                     anchors.top:    parent.top
                     anchors.bottom: parent.bottom
@@ -245,7 +189,6 @@ SetupPage {
                             for (var sliderIndex=0; sliderIndex<sliderRepeater.count; sliderIndex++) {
                                 sliderRepeater.itemAt(sliderIndex).motorSlider.value = neutralValue
                             }
-                            allSlider.value = neutralValue
                         }
                 }
 
