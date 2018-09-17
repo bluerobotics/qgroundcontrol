@@ -263,7 +263,6 @@ SetupPage {
 
                 onTriggered: {
                     if (controller.vehicle.armed) {
-                           console.log(_lastIndex)
                             var slider = sliderRepeater.itemAt(_lastIndex)
 
                             var reversed = controller.getParameterFact(-1, "MOT_" + (_lastIndex + 1) + "_DIRECTION").value == -1
