@@ -249,6 +249,7 @@ SetupPage {
                 }
 
                 QGCLabel {
+                    anchors.verticalCenter: safetySwitch.verticalCenter
                     color:  qgcPal.warningText
                     text:   qsTr("Slide this switch to arm the vehicle and enable the motor test (CAUTION!)")
                 }
