@@ -228,7 +228,6 @@ SetupPage {
                         }
 
                         controller.vehicle.armed = checked
-                        checked = controller.vehicle.armed // As crazy as this looks, it keeps things working the way they should see onArmedChanged below, that will take care of checked state
                     }
                 }
 
