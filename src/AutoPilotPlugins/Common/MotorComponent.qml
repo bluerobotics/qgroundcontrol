@@ -222,7 +222,7 @@ SetupPage {
                 spacing: ScreenTools.defaultFontPixelWidth
                 Switch {
                     id: safetySwitch
-                    onClicked: {
+                    onToggled: {
                         if (controller.vehicle.armed) {
                             timer.stop()
                         }
