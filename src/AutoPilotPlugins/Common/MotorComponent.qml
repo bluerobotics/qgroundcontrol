@@ -228,6 +228,7 @@ SetupPage {
                         }
 
                         controller.vehicle.armed = checked
+                        checked = controller.vehicle.armed  // This makes sure the switch matches the vehicle's state in case it refuses the command
                     }
                 }
 
