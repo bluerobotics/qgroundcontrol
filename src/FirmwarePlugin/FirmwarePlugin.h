@@ -291,6 +291,9 @@ public:
     /// @return true: vehicle has gimbal, false: gimbal support unknown
     virtual bool hasGimbal(Vehicle* vehicle, bool& rollSupported, bool& pitchSupported, bool& yawSupported);
 
+    /// Checks if running firmware is latest stable version.
+    virtual void checkIfIsLatestStable(Vehicle* vehicle);
+
     // FIXME: Hack workaround for non pluginize FollowMe support
     static const char* px4FollowMeFlightMode;
 

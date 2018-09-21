@@ -98,6 +98,7 @@ public:
     RallyPointManager*  newRallyPointManager            (Vehicle* vehicle) final { return new APMRallyPointManager(vehicle); }
     QString             brandImageIndoor                (const Vehicle* vehicle) const override { Q_UNUSED(vehicle); return QStringLiteral("/qmlimages/APM/BrandImage"); }
     QString             brandImageOutdoor               (const Vehicle* vehicle) const override { Q_UNUSED(vehicle); return QStringLiteral("/qmlimages/APM/BrandImage"); }
+    void                checkIfIsLatestStable           (Vehicle* vehicle) final;
 
 protected:
     /// All access to singleton is through stack specific implementation
@@ -120,6 +121,8 @@ private:
     void _handleIncomingHeartbeat(Vehicle* vehicle, mavlink_message_t* message);
     void _handleOutgoingParamSet(Vehicle* vehicle, LinkInterface* outgoingLink, mavlink_message_t* message);
     void _soloVideoHandshake(Vehicle* vehicle);
+    void _versionFileDownloadFinished(QString& remoteFile, QString& localFile, Vehicle* vehicle);
+    QString _getGitVersionUrl(Vehicle* vehicle);
 
     // Any instance data here must be global to all vehicles
     // Vehicle specific data should go into APMFirmwarePluginInstanceData

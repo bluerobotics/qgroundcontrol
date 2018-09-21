@@ -18,7 +18,9 @@
 #include "APMFlightModesComponentController.h"
 #include "APMAirframeComponentController.h"
 #include "APMSensorsComponentController.h"
+#include "QGCFileDownload.h"
 
+#include <QRegularExpression>
 #include <QTcpSocket>
 
 QGC_LOGGING_CATEGORY(APMFirmwarePluginLog, "APMFirmwarePluginLog")
@@ -823,5 +825,88 @@ QString APMFirmwarePlugin::internalParameterMetaDataFile(Vehicle* vehicle)
         }
     default:
         return QString();
+    }
+}
+
+QString APMFirmwarePlugin::_getGitVersionUrl(Vehicle* vehicle)
+{
+    const static QString baseUrl("http://firmware.ardupilot.org/%1/stable/PX4/git-version.txt");
+    if (vehicle->fixedWing()) {
+        return baseUrl.arg("Plane");
+    }
+    if (vehicle->vtol()) {
+        return baseUrl.arg("Plane");
+    }
+    if (vehicle->rover()) {
+        return baseUrl.arg("Rover");
+    }
+    if (vehicle->sub()) {
+        return baseUrl.arg("Sub");
+    }
+    return baseUrl.arg("Copter");
+}
+
+void APMFirmwarePlugin::checkIfIsLatestStable(Vehicle* vehicle)
+{
+    // This is required as mocklink uses a hardcoded firmware version
+    if (qgcApp()->runningUnitTests()) {
+        qCDebug(APMFirmwarePluginLog) << "Skipping version check";
+        return;
+    }
+    QString versionFile = _getGitVersionUrl(vehicle);
+    qCDebug(APMFirmwarePluginLog) << "Downloading" << versionFile;
+    QGCFileDownload* downloader = new QGCFileDownload(this);
+    connect(
+        downloader,
+        &QGCFileDownload::downloadFinished,
+        this,
+        [vehicle, this](QString remoteFile, QString localFile) {
+            _versionFileDownloadFinished(remoteFile, localFile, vehicle);
+        });
+    downloader->download(versionFile);
+}
+
+void APMFirmwarePlugin::_versionFileDownloadFinished(QString& remoteFile, QString& localFile, Vehicle* vehicle)
+{
+    qCDebug(APMFirmwarePluginLog) << "Download complete" << remoteFile << localFile;
+    // Now read the version file and pull out the version string
+    QFile versionFile(localFile);
+    if (!versionFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qCWarning(APMFirmwarePluginLog) << "Error opening downloaded version file.";
+        return;
+    }
+    QTextStream stream(&versionFile);
+    QString versionContents = stream.readAll();
+
+    QString version;
+    const static QRegularExpression re(QStringLiteral(" V([0-9,\\.]*)$"));
+    QRegularExpressionMatch match = re.match(versionContents);
+    qCDebug(APMFirmwarePluginLog) << "Looking for version number...";
+    if (match.hasMatch()) {
+        version = match.captured(1);
+    } else {
+        qCWarning(APMFirmwarePluginLog) << "Unable to parse version info from file" << remoteFile;
+        return;
+    }
+    qCDebug(APMFirmwarePluginLog) << "Latest stable version = "  << version;
+    QStringList versionNumbers = version.split(".");
+    if(versionNumbers.size() != 3) {
+        qCWarning(APMFirmwarePluginLog) << "Error parsing version number: wrong format";
+        return;
+    }
+    int stableMajor = versionNumbers[0].toInt();
+    int stableMinor = versionNumbers[1].toInt();
+    int stablePatch = versionNumbers[2].toInt();
+    if ((vehicle->firmwareMajorVersion() != stableMajor)
+        || (vehicle->firmwareMinorVersion() != stableMinor)
+        || (vehicle->firmwarePatchVersion() != stablePatch)
+        || (vehicle->firmwareVersionType() != FIRMWARE_VERSION_TYPE_OFFICIAL)
+        )
+    {
+        const static QString currentVersion = QString("%1.%2.%3").arg(vehicle->firmwareMajorVersion())
+                                                                 .arg(vehicle->firmwareMinorVersion())
+                                                                 .arg(vehicle->firmwarePatchVersion());
+        const static QString message = tr("Vehicle firmware is not on latest stable! Running %1 %2, latest stable is %3");
+        qgcApp()->showMessage(message.arg(vehicle->firmwareVersionTypeString(), currentVersion, version));
     }
 }

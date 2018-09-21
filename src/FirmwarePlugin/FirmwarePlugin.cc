@@ -524,3 +524,8 @@ bool FirmwarePlugin::hasGimbal(Vehicle* vehicle, bool& rollSupported, bool& pitc
     yawSupported = false;
     return false;
 }
+
+void FirmwarePlugin::checkIfIsLatestStable(Vehicle* vehicle){
+    Q_UNUSED(vehicle);
+    // TODO: Implement latest version check for PX4
+}
